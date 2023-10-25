@@ -48,5 +48,3 @@ if __name__ == "__main__":
     dirs = [os.path.join('aug', 'with_mask'), os.path.join('aug', 'without_mask')]
     for dir in dirs:
         check_image_directory(dir, verbose=1)
-
-

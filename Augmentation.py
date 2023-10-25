@@ -12,11 +12,15 @@ if not os.path.exists('aug//with_mask'): #directory to save masked images
 
 if not os.path.exists('aug//without_mask'): #directory to save unmasked images
     os.makedirs('aug//without_mask')
+print("Created directories....")
 
-IMG_WIDTH, IMG_HEIGHT, AUG_IMG_NUM = 250, 250, 20 #AUG_IMG_NUM: generate AUG_IMG_NUM examples for each image
+
+IMG_WIDTH, IMG_HEIGHT, AUG_IMG_NUM = 224, 224, 2 #AUG_IMG_NUM: generate AUG_IMG_NUM examples for each image
 images = []
 input_directory_with, input_directory_without = os.path.join('im', 'with_mask'), os.path.join('im', 'without_mask')
 output_directory_with, output_directory_without = os.path.join('aug', 'with_mask'), os.path.join('aug', 'without_mask')
+dirs_arr = [(input_directory_with, output_directory_with), 
+            (input_directory_without, output_directory_without)]
 aug_im_counter = 0
 
 transform = A.Compose(
@@ -36,61 +40,15 @@ transform = A.Compose(
         ], p=0.9),
         A.RandomShadow(p=0.5),
         A.RandomFog(p=0.5),
-        A.GaussNoise(var_limit=(10.0, 50.0), p=0.5),
         A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.9),
         A.RandomRain(p=0.5),
     ]
 )
+print("Defined transformations....")
 
-
-# Should have implemented this as a function!
-for im in os.listdir(input_directory_with):
-    image = Image.open(os.path.join(input_directory_with, im))
-    image = np.array(image)
-
-    
-    for _ in range(AUG_IMG_NUM):
-        output_im = os.path.join(output_directory_with, 'augmented_image_' + str(aug_im_counter) + '.png')
-
-        if not os.path.exists(output_im):
-
-            try:  #skip the images that will cause any problem and go to the next one.
-                augmentations = transform(image=image)
-            except:
-                break
-
-            aug_im = augmentations['image']
-            augmented_image = Image.fromarray(aug_im)
-            augmented_image.save(output_im)
-
-        aug_im_counter += 1
-
-aug_im_counter = 0
-
-for im in os.listdir(input_directory_without):
-    image = Image.open(os.path.join(input_directory_without, im))
-    image = np.array(image)
-
-    for _ in range(AUG_IMG_NUM):
-        output_im = os.path.join(output_directory_without, 'augmented_image_' + str(aug_im_counter) + '.png')
-
-        if not os.path.exists(output_im):
-            
-            try:  #skip the images that will cause any problem and go to the next one.
-                augmentations = transform(image=image)
-            except:
-                break
-
-            aug_im = augmentations['image']
-            augmented_image = Image.fromarray(aug_im)
-            augmented_image.save(output_im)
-
-        aug_im_counter += 1
-
-
-""" def augment(input_dir, output_dir):
-
-    aug_im_counter = 0
+def augment(input_dir, output_dir):
+    print('Performing augmentation...')
+    aug_im_counter = 1
 
     for im in os.listdir(input_dir):
         image = Image.open(os.path.join(input_dir, im))
@@ -104,11 +62,15 @@ for im in os.listdir(input_directory_without):
                 try:  #skip the images that will cause any problem and go to the next one.
                     augmentations = transform(image=image)
                 except:
+                    print('Error!')
                     break
 
                 aug_im = augmentations['image']
                 augmented_image = Image.fromarray(aug_im)
                 augmented_image.save(output_im)
 
+            print(f'Image {aug_im_counter} done...')
             aug_im_counter += 1    
- """
+
+for with_dir, without_dir in dirs_arr:
+    augment(with_dir, without_dir)
