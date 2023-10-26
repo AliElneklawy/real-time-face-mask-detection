@@ -35,7 +35,7 @@ The project consists of the following key files:
 
 ## Usage
 
-Once the project is set up, you can use the face mask detection feature. Here are the main usage instructions:
+Once the project is set up, you can use the face mask detection feature. You only need two files to run the project; `utils/MobileNetV2.h5` and `video_cap.py`. Here are the main usage instructions:
 
 - Run the real-time face mask detection script:
    `python video_cap.py`
