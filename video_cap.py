@@ -31,10 +31,13 @@ while True:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         faces = face_cascade.detectMultiScale(roi_gray)
 
-        if len(faces) == 0: ('No faces')
+        for (ex, ey, ew, eh) in faces:
+                face_roi = roi_color[ey: ey + eh, ex: ex + ew]
+                
+        """ if len(faces) == 0: ('No faces')
         else:
             for (ex, ey, ew, eh) in faces:
-                face_roi = roi_color[ey: ey + eh, ex: ex + ew]
+                face_roi = roi_color[ey: ey + eh, ex: ex + ew] """
     
     final_im = cv2.resize(face_roi, (224, 224))
     final_im = np.expand_dims(final_im, axis=0)
