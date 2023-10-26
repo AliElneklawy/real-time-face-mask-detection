@@ -3,17 +3,6 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 model = load_model('utils/MobileNetV2.h5')
-font = cv2.FONT_HERSHEY_PLAIN
-font_scale = 1.5
-rect_bgr = (0, 0, 255)
-img = np.zeros((500, 500))
-text = 'text..'
-text_width, text_height = cv2.getTextSize(text, font, fontScale=font_scale, thickness=1)[0]
-text_offset_x, text_offset_y = 6, img.shape[0] - 25
-box_coords = ((text_offset_x, text_offset_y), (text_offset_x + text_width + 10, text_offset_y - text_height - 2))
-
-#cv2.rectangle(img, box_coords[0], box_coords[1], rect_bgr, cv2.FILLED)
-#cv2.putText(img, text, (text_offset_x, text_offset_y), font, fontScale=font_scale, color=(0, 0, 0), thickness=1)
 
 cap = cv2.VideoCapture(1)
 if not cap.isOpened():
@@ -51,7 +40,6 @@ while True:
             frame_color = (0, 0, 255)
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), frame_color, 2)
-        # Draw the status text on top of the face rectangle
         cv2.putText(frame, stat, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, text_color, 2)
 
     cv2.imshow('Face Mask Detection Task', frame)
