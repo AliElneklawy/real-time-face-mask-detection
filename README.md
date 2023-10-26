@@ -3,9 +3,16 @@
 Real-Time Face Mask Detection is a computer vision project that leverages machine learning techniques to detect whether a person is wearing a face mask in real-time. This project uses popular deep learning frameworks like TensorFlow and OpenCV, making it a valuable resource for applications related to health and safety, such as monitoring mask compliance in public spaces. Transfer learning was applied by using a pre-trained model `MobileNetV2` to achieve reliable results.
 
 ## Table of Contents
+- [Demo](#Demo)
 - [Project Structure](#ProjectStructure)
 - [Features](#Features)
 - [Usage](#Usage)
+
+## Demo
+
+<p align="center">
+  <img src="https://github.com/AliElneklawy/real-time-face-mask-detection/assets/89526026/13919360-8679-4108-9551-7376dd403854" alt="demo">
+</p>
 
 ## Project Structure
 The project consists of the following key files:
