@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 
-model = load_model('utils/final_model.h5')
+model = load_model('utils/MobileNetV2.h5')
 font = cv2.FONT_HERSHEY_PLAIN
 font_scale = 1.5
 rect_bgr = (255, 255, 255)
@@ -45,20 +45,20 @@ while True:
 
     prediction = model.predict(final_im)
     print(prediction)
-    if prediction > 0:
-        stat = 'No Mask'
-        x1, y1, w1, h1 = 0, 0, 175, 75
-        cv2.rectangle(frame, (x1, x1), (x1 + w1, y1 + h1), (0, 0, 0), -1)
-        cv2.putText(frame, stat, (x1 + int(w1 / 10), y1 + int(h1 / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        #cv2.putText(frame, stat, (100, 150), font, 3, (0, 0, 255), 2, cv2.LINE_4)
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255))
-    else:
+    if prediction < 1:
         stat = 'Mask Detected'
         x1, y1, w1, h1 = 0, 0, 175, 75
         cv2.rectangle(frame, (x1, x1), (x1 + w1, y1 + h1), (0, 0, 0), -1)
         cv2.putText(frame, stat, (x1 + int(w1 / 10), y1 + int(h1 / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         #cv2.putText(frame, stat, (100, 150), font, 3, (0, 255, 0), 2, cv2.LINE_4)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0))
+    else:
+        stat = 'No Mask'
+        x1, y1, w1, h1 = 0, 0, 175, 75
+        cv2.rectangle(frame, (x1, x1), (x1 + w1, y1 + h1), (0, 0, 0), -1)
+        cv2.putText(frame, stat, (x1 + int(w1 / 10), y1 + int(h1 / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        #cv2.putText(frame, stat, (100, 150), font, 3, (0, 0, 255), 2, cv2.LINE_4)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255))
     
     cv2.imshow('Face Mask Detection Task', frame)
     #cv2.waitKey(0)
